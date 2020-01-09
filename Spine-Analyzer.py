@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 '''
 ELSA Icicle Spine Analyzer designed to center left and right bounds of icicle to zero for fitting to response function.
 In addition, if the icicle is curved, this script will use a linear fit to renormalize the edges first.
@@ -37,7 +31,7 @@ function will also renormalize these edges to a linear fit if the icicle is curv
 
 left as list: Position array of the left edge of the icicle.
 right as list: Position array of the right edge of the icicle.
-threshold as int: Maximum distance that any point on the icicle spine can be from the average of the spine.
+threshold as int: Maximum distance that any point on the icicle spine can be from the average of the spine. Defaults to 5.
 
 And returns the following:
 
