@@ -13,11 +13,11 @@ def EdgeDetect(imageloc,threshold=110,kernalsize=3,lbound=100,ubound=200):
 '''
 ELSA Edge Detection Function. Takes the following arguments:
 
-imageloc as string: relative path to the icicle image for processing
-threshold as int: Brightness threshold for OpenCV Thresholding
-kernalsize as int: Kernal Size for OpenCV Blurring
-lbound as int: Lower bound for edge detection using OpenCV Canny
-ubound as int: Upper bound for edge detection using OpenCV Canny
+imageloc as string: relative path to the icicle image for processing.
+threshold as int: Brightness threshold for OpenCV Thresholding. Defaults to 110.
+kernalsize as int: Kernal Size for OpenCV Blurring. Defaults to 3.
+lbound as int: Lower bound for edge detection using OpenCV Canny. Defaults to 100.
+ubound as int: Upper bound for edge detection using OpenCV Canny. Defaults to 200.
 
 And returns the following:
 
