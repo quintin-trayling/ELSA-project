@@ -13,14 +13,15 @@ def SpineCorrection(left,right,spine):
     set by the threshold parameter in the SpineCalc function.
     '''
     #Set up linear space to perform the linear fit over
-    zspace = np.linspace(0,len(spine),len(spine))
+    zspace = (np.linspace(0,len(spine),len(spine)))
     
     #Calculate linear fit for icicle spine
     scoliosis = np.polyfit(zspace,spine,1)
+    scoliosis_p = np.poly1d(scoliosis)
     
     #Calculate corrected left and right edges
-    leftcorr = left-scoliosis[zspace]
-    rightcorr = right-scoliosis[zspace]
+    leftcorr = left-scoliosis_p(zspace)
+    rightcorr = right-scoliosis_p(zspace)
     
     return leftcorr,rightcorr
 
@@ -39,7 +40,8 @@ def SpineCalc(left,right,threshold=5):
     rightfin as list: Final renormalized list for positions of the right edge of the icicle.
     '''
     #Calculate the spine of the icicle and its mean value.
-    spine = (right+left)./2
+    combo = np.add(right,left)
+    spine = [x/2 for x in combo]
     mean = np.mean(spine)
     
     #Check if the spine of the icicle differs from its mean by more than the threshold
