@@ -8,10 +8,10 @@ Use help(SpineCalc) for more information.
 import numpy as np
 
 def SpineCorrection(left,right,spine):
-'''
-Correction function for curved icicles processed by SpineCalc. This function will run automatically if required,
-set by the threshold parameter in the SpineCalc function.
-'''
+    '''
+    Correction function for curved icicles processed by SpineCalc. This function will run automatically if required,
+    set by the threshold parameter in the SpineCalc function.
+    '''
     #Set up linear space to perform the linear fit over
     zspace = np.linspace(0,len(spine),len(spine))
     
@@ -25,21 +25,21 @@ set by the threshold parameter in the SpineCalc function.
     return leftcorr,rightcorr
 
 def SpineCalc(left,right,threshold=5):
-'''
-ELSA edge adjustment function to center the left and right edges around the spine of the icicle. If needed, this
-function will also renormalize these edges to a linear fit if the icicle is curved. Takes the following arguments:
+    '''
+    ELSA edge adjustment function to center the left and right edges around the spine of the icicle. If needed, this
+    function will also renormalize these edges to a linear fit if the icicle is curved. Takes the following arguments:
 
-left as list: Position array of the left edge of the icicle.
-right as list: Position array of the right edge of the icicle.
-threshold as int: Maximum distance that any point on the icicle spine can be from the average of the spine. Defaults to 5.
+    left as list: Position array of the left edge of the icicle.
+    right as list: Position array of the right edge of the icicle.
+    threshold as int: Maximum distance that any point on the icicle spine can be from the average of the spine. Defaults to 5.
 
-And returns the following:
+    And returns the following:
 
-leftfin as list: Final renormalized list for positions of the left edge of the icicle.
-rightfin as list: Final renormalized list for positions of the right edge of the icicle.
-'''
+    leftfin as list: Final renormalized list for positions of the left edge of the icicle.
+    rightfin as list: Final renormalized list for positions of the right edge of the icicle.
+    '''
     #Calculate the spine of the icicle and its mean value.
-    spine = (right+left)/2
+    spine = (right+left)./2
     mean = np.mean(spine)
     
     #Check if the spine of the icicle differs from its mean by more than the threshold
