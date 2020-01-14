@@ -20,8 +20,8 @@ def SpineCorrection(left,right,spine):
     scoliosis_p = np.poly1d(scoliosis)
     
     #Calculate corrected left and right edges
-    leftcorr = left-scoliosis_p(zspace)
-    rightcorr = right-scoliosis_p(zspace)
+    leftcorr = abs(left-scoliosis_p(zspace))
+    rightcorr = abs(right-scoliosis_p(zspace))
     
     return leftcorr,rightcorr
 
@@ -47,15 +47,15 @@ def SpineCalc(left,right,threshold=5):
     #Check if the spine of the icicle differs from its mean by more than the threshold
     if max(abs(spine-mean)) > threshold:
         
-        #If so, prepare left and right arrays around zero, then run correction script
-        leftuncorr = mean-left
-        rightuncorr = right-mean
+        #If so, run correction script to correct for linear fit (which includes mean)
+        leftuncorr = left
+        rightuncorr = right
         leftfin, rightfin = SpineCorrection(leftuncorr,rightuncorr,spine)
     else:
         
         #If not, just return the edges normalized around zero
-        leftfin = mean-left
-        rightfin = right-mean
+        leftfin = abs(mean-left)
+        rightfin = abs(right-mean)
         
     return leftfin,rightfin
 
