@@ -9,16 +9,14 @@ import sys
 import numpy as np
 
 
-def EdgeDetect(imageloc,threshold=110,kernalsize=3,lbound=100,ubound=200):
+def EdgeDetect(imageloc,threshold=110,kernalsize=3,bound=20):
 '''
 ELSA Edge Detection Function. Takes the following arguments:
 
 imageloc as string: relative path to the icicle image for processing.
 threshold as int: Brightness threshold for OpenCV Thresholding. Defaults to 110.
 kernalsize as int: Kernal Size for OpenCV Blurring. Defaults to 3.
-lbound as int: Lower bound for edge detection using OpenCV Canny. Defaults to 100.
-ubound as int: Upper bound for edge detection using OpenCV Canny. Defaults to 200.
-
+bound as int: Upper and lower bounds for edge detection (relative to threshold) using OpenCV Canny. Defaults to 20.
 And returns the following:
 
 leftedge as list: Pixel locations for left icicle edge, from base to tip
@@ -26,6 +24,10 @@ rightedge as list: Pixel locations for right icicle edge, from base to tip
 '''
     #Contract kernal size variable for ease of use
     k=kernalsize
+    
+    #Calculate lbound and ubound using threshold and bound.
+    lbound = max(0,threshold-bound)
+    ubound = min(255,threshold+bound)
     
     #Try reading the image file, returning an error if read fails
     try:
