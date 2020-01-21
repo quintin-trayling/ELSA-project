@@ -7,7 +7,7 @@ code is tested in Jupyter Notebook.
 """
 
 # Note: '.png' or '.jpg' extension is required
-fileName = 'icicle_test_2.jpg'
+fileName = 'Icicle_test.jpg'
 
 
 #######################################################
@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import ndimage
 import imageio as io
+from Edge_Detect import EdgeDetect
 
 
 # Get edge data
