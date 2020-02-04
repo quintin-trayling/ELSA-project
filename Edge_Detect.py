@@ -25,10 +25,6 @@ def EdgeDetect(imageloc,threshold=110,kernalsize=3,bound=20):
     #Contract kernal size variable for ease of use
     k=kernalsize
     
-    #Calculate lbound and ubound using threshold and bound.
-    lbound = max(0,threshold-bound)
-    ubound = min(255,threshold+bound)
-    
     #Try reading the image file, returning an error if read fails
     try:
         img = cv.imread(filename = imageloc,flags = cv.IMREAD_GRAYSCALE)
@@ -39,7 +35,13 @@ def EdgeDetect(imageloc,threshold=110,kernalsize=3,bound=20):
     blurred = cv.GaussianBlur(src = img, ksize = (k, k), sigmaX = 0.1)
     
     #Brightness threshold the blurred image to calculate outside edges.
-    (t, mask) = cv.threshold(src = blurred, thresh = threshold, maxval = 255,type = cv.THRESH_BINARY)
+    (t, mask) = cv.threshold(src = blurred, thresh = threshold, maxval = 255,type = cv.THRESH_OTSU)
+
+    #Calculate lbound and ubound using threshold and bound.
+    lbound = max(0,t-bound)
+    ubound = min(255,t+bound)
+
+    #Apply Canny edge detection 
     edges = cv.Canny(mask,lbound,ubound)
     
     #Initialize arrays for optimal memory usage.
