@@ -12,10 +12,10 @@ day = str(datetime.now().day)
 filename = str("0"+month+"."+day+".log")
 
 datapath = str("./Hum_Temp/"+filename)
-
+plotpath = "./Plots/"
 @sched.scheduled_job('interval', seconds=5)
 def timed_job():
-    Health_Monitor.Apparatus_Monitor(sensordata=datapath,plotpath="./Plots/",lasttime="./Monitoring/lastrun.txt")
+    Health_Monitor.Apparatus_Monitor(sensordata=datapath,plotpath=plotpath,lasttime="./Monitoring/lastrun.txt")
 	
 sched.start()
 input("Press Enter to shutdown Monitoring ")
@@ -27,7 +27,7 @@ else:
     plots_movepath = plots_move
     
 os.makedirs(plots_movepath)
-shutil.move(str(plotpath+"Humidity.png"), str(plots_movepath+"Humidity.png"))
-shutil.move(str(plotpath+"Temperature.png"), str(plots_movepath+"Temperature.png"))
+shutil.move(str(plotpath+"Humidity.png"), str(plots_movepath+"/Humidity.png"))
+shutil.move(str(plotpath+"Temperature.png"), str(plots_movepath+"/Temperature.png"))
 
 print("Monitoring code shutdown.")
