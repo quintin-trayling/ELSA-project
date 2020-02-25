@@ -4,16 +4,16 @@ from datetime import datetime
 
 sched = BackgroundScheduler()
 
-month = datetime.now().month
-day = datetime.now().day
+month = str(datetime.now().month)
+day = str(datetime.now().day)
 
-filename = str(month+"-"+day+".log")
+filename = str("0"+month+"."+day+".log")
 
-datapath = str("/Hum_Temp/"+filename)
+datapath = str("./Hum_Temp/"+filename)
 
 @sched.scheduled_job('interval', seconds=5)
 def timed_job():
-    Health_Monitor.ApparatusMonitor(sensordata=datapath,plotpath="/Plots/",lasttime="lastrun.txt")
+    Health_Monitor.Apparatus_Monitor(sensordata=datapath,plotpath="./Plots/",lasttime="./Monitoring/lastrun.txt")
 	
 sched.start()
 input("Press Enter to shutdown Monitoring ")
