@@ -82,7 +82,7 @@ def Apparatus_Monitor(sensordata,plotpath,lasttime,temp_bounds=[-18,-12],humid_t
     
     humid_data,temp_data = np.loadtxt(sensordata,delimiter=',',skiprows=2,unpack=True)
     t0 = 28800
-    time_data = np.arange(0,5*len(humid_data)+1,5)
+    time_data = np.arange(0,5*len(humid_data),5)
     password = "10Icicles"
     
     temppath = str(plotpath+"Temperature.png")
