@@ -1,4 +1,4 @@
-import Monitoring.Health-Monitor as Health-Monitor
+import Monitoring.Health_Monitor as Health-Monitor
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 
