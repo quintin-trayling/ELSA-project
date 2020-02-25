@@ -45,15 +45,15 @@ def Email_Sender(password,image1,image2,issuecode):
 
     text = msg.as_string()
     context = ssl.create_default_context()
-    for i in range(0,len(emails))
+	for i in range(0,len(emails)):
 		with smtplib.SMTP_SSL(Server, Port, context=context) as server:
 			server.login(sender_email, password)
 			msg['To'] = emails[i]
 			receiver_email = emails[i]
 			server.sendmail(sender_email, receiver_email, text)
 			server.quit()
-    now = datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+	now = datetime.now()
+	dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     
     discord_msg = ("@everyone The ELSA Automatic monitoring script has detected a significant change in temperature or humidity at " 
                    + str(dt_string) + ". Check email for further details.")
