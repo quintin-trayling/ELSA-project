@@ -155,7 +155,7 @@ def EdgeFit(response,z,parguess=[],error=0,sigma_abs = True,
     response as array: Icicle edge positions as a function of z.
     z as array: z values along edge of icicle, where z=0 is the icicle tip, and z=zmax is the icicle base.
     parguess as array: guess values for parameters, as follows, from section 2.3 of ELSA TDR: [A_r,w,phi,C_r]. Defaults to [A_guess,w_guess,0,C_guess], where A_guess, w_guess, and C_guess are calculated by the AmplitudeGuess, FrequencyGuess, and OffsetGuess functions, respectively.
-    error as array-like: Error on response values. Defaults to max(response)/(len(response))**(1/2)
+    error as array-like: Error on response values. Defaults to abs(z[1]-z[0])/2
     sigma_abs as Boolean: Whether or not to use absolute_sigma in curve_fit. Defaults to True.
     bounds as 2 arrays: Lower and upper bounds on fit parameters
     amplitudethreshold as float: Thresholding value for AmplitudeGuess function. Defaults to 0.01.
@@ -171,7 +171,7 @@ def EdgeFit(response,z,parguess=[],error=0,sigma_abs = True,
     '''
 
     if error == 0:
-        error=(max(response)-(min(response))**(1/2))*np.ones(len(response))
+        error=(abs((z[1]-z[0])/2))*np.ones(len(response))
             
     if bounds == []:
         bounds = ((-max(response),0,-np.pi/2),(max(response),len(z)/10,np.pi/2))
