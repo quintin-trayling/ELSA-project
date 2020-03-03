@@ -101,10 +101,41 @@ def AmplitudeGuess(residuals,z,threshold=0.01,resolution=3,iterate=4,fullIcicle=
                     ind1 = 0
                     ind2 = 0
 
-    Amp_avg = np.mean(Amps)
-    Freq_avg = np.mean(freqs)
-    Amp_std = np.std(Amps)
-    Freq_std = np.std(freqs)
+    #Amp_avg = np.mean(Amps)
+    #Freq_avg = np.mean(freqs)
+    #Amp_std = np.std(Amps)
+    #Freq_std = np.std(freqs)
+    
+    # histogram the amplitude and frequency
+    Amps_c, Amps_b = np.histogram(Amps, bins=int(Amps.max()), range=(0.5, Amps.max()+0.5))
+    freqs_c, freqs_b = np.histogram(freqs, bins=int(freqs.max()), range=(0.5, freqs.max()+0.5))
+
+    Amps_b = Amps_b[:-1] + (Amps_b[1] - Amps_b[0]) / 2
+    freqs_b = freqs_b[:-1] + (freqs_b[1] - freqs_b[0]) / 2
+
+    # eliminate all the zero bins
+    delete_A = []
+    for i in range(len(Amps_c)):
+        if Amps_c[i] == 0.0:
+            delete_A.append(i)
+
+    delete_f = []
+    for i in range(len(freqs_c)):
+        if freqs_c[i] == 0.0:
+            delete_f.append(i)
+
+    Amps_c = np.delete(Amps_c, delete_d)
+    freqs_c = np.delete(freqs_c, delete_u)
+
+    # Gaussian fit
+    opt_A, cov_A = curve_fit(gaussian, Amps_b, Amps_c, p0=[5, 25, 10])
+    opt_f, cov_f = curve_fit(gaussian, freqs_b, freqs_c, p0=[5, 25, 10])
+    
+    Amp_avg = opt_A[1]
+    Freq_avg = opt_f[1]
+    Amp_std = opt_A[2]
+    Freq_std = opt_f[2]
+    
     return Amp_avg,Amp_std,Freq_avg,Freq_std
 
 def PhiGuess(residuals,z,wguess):
