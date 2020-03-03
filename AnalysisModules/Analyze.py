@@ -9,9 +9,9 @@ of the left and right sides of the icicle. Use help(Analyze) for more informatio
 import numpy as np
 import matplotlib.pyplot as plt
 
-from Edge_Detect import EdgeDetect
-from Spine_Analyzer import SpineCalc
-from Edge_Fit import EdgeFit
+from .Edge_Detect import EdgeDetect
+from .Spine_Analyzer import SpineCalc
+from .Edge_Fit import EdgeFit
 
 def Analyze(imageloc,ppcm=95,edgethreshold=110,kernalsize=3,detectionbound=20,spinethreshold=5,
             parguess=[],error=0,sigma_abs = True,amplitudethresh=0.01,amplituderes=3,amplitudeiter=4,
