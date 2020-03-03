@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.ndimage import gaussian_filter
 
+def gaussian(x, *p):
+    return p[0]*np.exp(-(x-p[1])**2/(2*p[2]**2))/np.sqrt(2*np.pi*p[2]**2)
+
 def DistilledFit(z,a):
     '''
     Distilled water response function, defined by Equation (8) in section 2.1.3 of ELSA TDR.
