@@ -194,11 +194,15 @@ def EdgeFit(response,z,parguess=[],error=0,sigma_abs = True,
     
     res_p0 = [res_amp_guess,res_omega_guess,res_phi_guess,c_guess]
     
+    if c_guess < 0:
+        res_bounds = ([res_amp_guess/2,res_omega_guess/2,-1*len(res),3*c_guess],[3*res_amp_guess/2,2*res_omega_guess,len(res),c_guess/3])
+    else:
+        res_bounds = ([res_amp_guess/2,res_omega_guess/2,-1*len(res),c_guess/3],[3*res_amp_guess/2,2*res_omega_guess,len(res),3*c_guess])
+    
     print(res_p0)
     
     macro_fit,macro_cov = curve_fit(MacroSineFit,z,res,p0=res_p0,sigma=error_residual,absolute_sigma=sigma_abs,
-                                    bounds=([res_amp_guess/2,res_omega_guess/2,-1*len(res),c_guess/3],
-                                            [3*res_amp_guess/2,2*res_omega_guess,len(res),3*c_guess]))
+                                    bounds=res_bounds)
     
     macro_resp = MacroSineFit(z,macro_fit[0],macro_fit[1],macro_fit[2],macro_fit[3])
     
