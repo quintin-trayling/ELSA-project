@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #set of functions that plot the various parameters as a function of time and length
-def AmpPlot (amplitudes_left, amplitudes_right, amplitudes_left_sigma, amplitudes_right_sigma, times, lengths, icicle_num) : 
+def AmpPlot (amplitudes_left, amplitudes_right, amplitudes_left_sigma, amplitudes_right_sigma, times, lengths, icicle_num, param_type) : 
     '''
     Plot the amplitude of sinusoidal ridges of the icicle of the icicle as a function of time and length. 
 
@@ -19,6 +19,7 @@ def AmpPlot (amplitudes_left, amplitudes_right, amplitudes_left_sigma, amplitude
     times : list of time of each photo taken
     lengths : list of lengths of icicle at each photo
     icicle_num : icicle number for identification, string
+    param_type : string indicating is parameter refers to ripple or macro wave parameter
 
     Two plots are saved, with four lines, one for each side of the icicle during growth. 
     '''
@@ -77,7 +78,7 @@ def AmpPlot (amplitudes_left, amplitudes_right, amplitudes_left_sigma, amplitude
 
     #plotting 
     plt.figure(figsize = (14, 6))
-    plot_name = 'amplitude_plot_' + icicle_num + '.jpg'
+    plot_name = 'amplitude_plot_' + param_type + icicle_num + '.jpg'
 
     plt.subplot(121)
     plt.errorbar(times_rl, Ar_right, Ar_right_sigma, label = 'Right')
@@ -97,12 +98,12 @@ def AmpPlot (amplitudes_left, amplitudes_right, amplitudes_left_sigma, amplitude
     plt.ylabel('Amplitude ()')
     plt.legend(loc=2)
 
-    plt.suptitle('Icicle sinusoid amplitude')
+    plt.suptitle('Icicle sinusoid amplitude ' + param_type)
     plt.savefig(plot_name)
 
     return
 
-def FrequencyPlot (frequencies_left, frequencies_right, frequencies_left_sigma, frequencies_right_sigma, times, lengths, icicle_num) : 
+def FrequencyPlot (frequencies_left, frequencies_right, frequencies_left_sigma, frequencies_right_sigma, times, lengths, icicle_num, param_type) : 
     '''
     Plot the frequency of the sinusoidal ridges of the icicle as a function of time and length. 
 
@@ -113,6 +114,7 @@ def FrequencyPlot (frequencies_left, frequencies_right, frequencies_left_sigma, 
     times : list of time of each photo taken
     lengths : list of lengths of icicle at each photo
     icicle_num : icicle number for identification, string
+    param_type : string indicating is parameter refers to ripple or macro wave parameter
 
     Frequencies are averages for the different sides fo the icicle.
     Two plots are saved, with four lines, one for each side of the icicle during growth. 
@@ -123,7 +125,7 @@ def FrequencyPlot (frequencies_left, frequencies_right, frequencies_left_sigma, 
 
     #plotting 
     plt.figure(figsize = (14, 6))
-    plot_name = 'frequency_plot_' + icicle_num + '.jpg'
+    plot_name = 'frequency_plot_' + param_type + icicle_num + '.jpg'
 
     plt.subplot(121)
     plt.errorbar(times, frequencies, frequencies_sigma)
@@ -135,11 +137,11 @@ def FrequencyPlot (frequencies_left, frequencies_right, frequencies_left_sigma, 
     plt.xlabel('Icicle Length ()')
     plt.ylabel('Frequency ()')
 
-    plt.suptitle('Icicle sinusoid frequency')
+    plt.suptitle('Icicle sinusoid frequency ' + param_type)
     plt.savefig(plot_name)
     return
 
-def OffsetPlot (offsets_left, offsets_right, offsets_left_sigma, offsets_right_sigma, times, lengths, icicle_num) : 
+def OffsetPlot (offsets_left, offsets_right, offsets_left_sigma, offsets_right_sigma, times, lengths, icicle_num, param_type) : 
     '''
     Plot the frequency offset of the sinusoidal ridges of the icicle as a function of time and length. 
 
@@ -150,12 +152,13 @@ def OffsetPlot (offsets_left, offsets_right, offsets_left_sigma, offsets_right_s
     times : list of time of each photo taken
     lengths : list of lengths of icicle at each photo
     icicle_num : icicle number for identification, string
+    param_type : string indicating is parameter refers to ripple or macro wave parameter
 
     Two plots are saved, with four lines, one for each side of the icicle during growth. 
     '''
     #plotting 
     plt.figure(figsize = (14, 6))
-    plot_name = 'frequencyoffset _offset_plot_' + icicle_num + '.jpg'
+    plot_name = 'frequencyoffset _offset_plot_' + param_type + icicle_num + '.jpg'
 
     plt.subplot(121)
     plt.errorbar(times, offsets_left, offsets_left_sigma, label = 'Left')
@@ -171,7 +174,7 @@ def OffsetPlot (offsets_left, offsets_right, offsets_left_sigma, offsets_right_s
     plt.ylabel('Phi ()')
     plt.legend(loc=2)
 
-    plt.suptitle('Icicle sinusoid frequency offset')
+    plt.suptitle('Icicle sinusoid frequency offset ' + param_type)
     plt.savefig(plot_name)
     return
 
@@ -213,20 +216,30 @@ def ConstantPlot (constants_left, constants_right, constants_left_sigma, constan
 
 
 
-def TimeAnalysis (params, errors, times, lengths, icicle_num) : 
+def TimeAnalysis (params_right, params_left, uncert_right, uncert_left, times, lengths, icicle_num) : 
     '''
+    parameters_left,uncerts_left,parameters_right,uncerts_right,icicle_length
+    [A_r,w_r,phi_r,a,A_m,w_m,phi_m,C]
 
-    params : 2D list of parameter outputs [[amplitudes_right], [amplitudes_left] [frequencies], [offsets], [constants]]
-    errors : 2D list of parameter errors
+    This code takes the parameters of the icicle over time and returns plots of the various parameters. 
+    The input parameters are :
+    params : 2D list of parameter outputs 
+             [[amplitudes_r], [frequencies_r], [amplitudes_m], [frequencies_m], [a], [C]]
+    errors : 2D list of parameter errors (same form as parameter outputs)
     times : list of time of each photo taken
     lengths : list of lengths of icicle at each photo
     icicle_num : integer indicating what icicle is being analysed
-
     '''
     icicle_num_str = str(icicle_num)
-    A_right, A_left, w, phi, C_r = params[0], params[1], params[2], params[3]
+    
+    AmpPlot(params_left[0], params_right[0], uncert_left[0], uncert_right[0], times, lengths, icicle_num_str, 'ripple')
+    FrequencyPlot (params_left[1], params_right[1], uncert_left[1], uncert_right[1], times, lengths, icicle_num_str, 'ripple')
+    OffsetPlot (params_left[2], params_right[2], uncert_left[2], uncert_right[2], times, lengths, icicle_num_str, 'ripple')
 
+    AmpPlot(params_left[4], params_right[4], uncert_left[4], uncert_right[4], times, lengths, icicle_num_str, 'macro')
+    FrequencyPlot (params_left[5], params_right[5], uncert_left[5], uncert_right[5], times, lengths, icicle_num_str, 'macro')
+    OffsetPlot (params_left[6], params_right[6], uncert_left[6], uncert_right[6], times, lengths, icicle_num_str, 'macro')
 
-    AmpPlot (amplitudes_left, amplitudes_right, amplitudes_left_sigma, amplitudes_right_sigma, times, lengths, icicle_num)
+    ConstantPlot (params_left[7], params_right[7], uncert_left[7], uncert_right[7], times, lengths, icicle_num_str)
 
     return 
