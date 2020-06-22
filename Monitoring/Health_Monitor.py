@@ -14,7 +14,7 @@ Webhook_URL = "https://discordapp.com/api/webhooks/676912729662947341/Zwc1g74r1Z
 
 webhook = DiscordWebhooks(Webhook_URL)
 
-emails = ["15qjt@queensu.ca","15anjh@queensu.ca","15yd29@queensu.ca","15fh23@queensu.ca","s.connolly@queensu.ca"]
+emails = np.loadtxt("emails.csv",delimiter=',')
 
 Server = "smtp.gmail.com"
 Port = 465  # For SSL
